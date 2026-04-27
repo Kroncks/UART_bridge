@@ -8,10 +8,10 @@ HTML_phone = """
   <style>
     :root {
       color-scheme: dark;
-      --bg: #050914;
-      --panel: #0a1323;
-      --panel-soft: rgba(10, 19, 35, 0.88);
-      --border: rgba(148, 163, 184, 0.18);
+      --app-height: 100dvh;
+      --panel: rgba(10, 19, 35, 0.94);
+      --panel-soft: rgba(10, 19, 35, 0.96);
+      --border: rgba(148, 163, 184, 0.16);
       --text: #e2e8f0;
       --muted: #95a9c5;
       --accent: #38bdf8;
@@ -31,7 +31,7 @@ HTML_phone = """
       margin: 0;
       min-height: 100%;
       background:
-        radial-gradient(circle at top, rgba(56, 189, 248, 0.16), transparent 32%),
+        radial-gradient(circle at top, rgba(56, 189, 248, 0.14), transparent 28%),
         linear-gradient(180deg, #07101e 0%, #030712 100%);
       color: var(--text);
       font-family: var(--sans);
@@ -39,43 +39,42 @@ HTML_phone = """
     }
 
     body {
-      min-height: 100dvh;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
+      height: var(--app-height);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
       padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
     }
 
     header {
-      padding: 16px 16px 14px;
-      background: rgba(5, 9, 20, 0.92);
+      flex: 0 0 auto;
+      padding: 12px 14px 10px;
+      background: rgba(5, 9, 20, 0.94);
       border-bottom: 1px solid var(--border);
       backdrop-filter: blur(16px);
     }
 
-    .topline {
+    .header-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
+      gap: 10px;
+      margin-bottom: 8px;
     }
 
     h1 {
       margin: 0;
-      font-size: 21px;
+      font-size: 19px;
       letter-spacing: -0.04em;
     }
 
-    .badge {
-      padding: 7px 10px;
+    .pill {
+      padding: 4px 8px;
       border-radius: 999px;
       background: rgba(56, 189, 248, 0.12);
       color: #bae6fd;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
       white-space: nowrap;
     }
 
@@ -84,7 +83,7 @@ HTML_phone = """
       align-items: center;
       gap: 10px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .status-dot {
@@ -92,7 +91,7 @@ HTML_phone = """
       height: 10px;
       border-radius: 999px;
       background: #fbbf24;
-      box-shadow: 0 0 14px rgba(251, 191, 36, 0.5);
+      box-shadow: 0 0 14px rgba(251, 191, 36, 0.45);
     }
 
     .status-dot.ok {
@@ -106,12 +105,15 @@ HTML_phone = """
     }
 
     #logs {
+      flex: 1 1 auto;
+      min-height: 0;
       overflow-y: auto;
-      padding: 14px 16px 24px;
+      -webkit-overflow-scrolling: touch;
+      padding: 12px 14px;
       font-family: var(--mono);
       font-size: 13px;
-      line-height: 1.55;
-      background: linear-gradient(180deg, rgba(10, 19, 35, 0.35) 0%, rgba(3, 7, 18, 0.7) 100%);
+      line-height: 1.45;
+      background: linear-gradient(180deg, rgba(10, 19, 35, 0.3) 0%, rgba(3, 7, 18, 0.75) 100%);
       display: flex;
       flex-direction: column;
       gap: 3px;
@@ -120,13 +122,10 @@ HTML_phone = """
     .log-entry {
       white-space: pre-wrap;
       word-break: break-word;
-      border-radius: 14px;
+      border-radius: 12px;
     }
 
-    .log-entry.plain {
-      color: var(--text);
-    }
-
+    .log-entry.plain,
     .log-entry.rx {
       color: var(--text);
     }
@@ -138,11 +137,9 @@ HTML_phone = """
 
     .log-entry.tx {
       position: relative;
-      display: flex;
-      align-items: flex-start;
       padding: 3px 84px 3px 8px;
-      background: rgba(100, 116, 139, 0.22);
-      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(100, 116, 139, 0.18);
+      border: 1px solid rgba(148, 163, 184, 0.14);
       color: #fde68a;
     }
 
@@ -165,58 +162,56 @@ HTML_phone = """
       min-height: 20px;
       padding: 0 6px;
       border-radius: 6px;
-      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.9);
       color: var(--text);
       font-size: 10px;
       font-weight: 700;
-      border: 1px solid rgba(148, 163, 184, 0.2);
     }
 
     .toolbar {
-      display: grid;
-      gap: 10px;
-      padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
-      background: rgba(5, 9, 20, 0.96);
+      flex: 0 0 auto;
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+      background: rgba(5, 9, 20, 0.97);
       border-top: 1px solid var(--border);
       backdrop-filter: blur(18px);
-    }
-
-    .hint {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      text-align: center;
     }
 
     .input-row {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 10px;
+      gap: 8px;
+      align-items: end;
     }
 
     #cmd {
-      min-width: 0;
       width: 100%;
-      min-height: 52px;
-      padding: 14px 16px;
-      border-radius: 16px;
+      min-width: 0;
+      min-height: 46px;
+      max-height: 104px;
+      padding: 12px 14px;
+      border-radius: 14px;
       border: 1px solid rgba(56, 189, 248, 0.2);
       background: var(--panel-soft);
       color: var(--text);
+      font: inherit;
       font-size: 16px;
+      line-height: 1.35;
       outline: none;
+      resize: none;
+      overflow-y: auto;
     }
 
     #cmd:focus {
-      border-color: rgba(56, 189, 248, 0.7);
+      border-color: rgba(56, 189, 248, 0.72);
       box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.12);
     }
 
     button {
-      min-height: 52px;
-      padding: 0 18px;
+      min-height: 46px;
+      padding: 0 16px;
       border: 0;
-      border-radius: 16px;
+      border-radius: 14px;
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
       color: #04131d;
       font-size: 15px;
@@ -230,9 +225,9 @@ HTML_phone = """
 </head>
 <body>
   <header>
-    <div class="topline">
+    <div class="header-top">
       <h1>ESP32 Monitor</h1>
-      <span class="badge">Téléphone</span>
+      <span class="pill">Téléphone</span>
     </div>
     <div class="status-row">
       <span id="status-dot" class="status-dot"></span>
@@ -244,7 +239,7 @@ HTML_phone = """
 
   <section class="toolbar">
     <div class="input-row">
-      <input id="cmd" type="text" placeholder="Commande UART..." autocomplete="off" autocapitalize="none" spellcheck="false">
+      <textarea id="cmd" rows="1" placeholder="Commande UART..." autocomplete="off" autocapitalize="none" spellcheck="false"></textarea>
       <button id="send-btn" type="button">Envoyer</button>
     </div>
   </section>
@@ -256,10 +251,17 @@ HTML_phone = """
     const status = document.getElementById("status");
     const statusDot = document.getElementById("status-dot");
     const wsProtocol = location.protocol === "https:" ? "wss:" : "ws:";
-    let ws = null;
     const autoReloadKey = "uart-bridge-phone-autoreload";
+
+    let ws = null;
     let reconnectTimer = null;
-    let wsBootTimer = null;
+    let stickToBottom = true;
+
+    function updateViewportHeight() {
+      const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      document.documentElement.style.setProperty("--app-height", `${height}px`);
+      scrollLogsToBottom();
+    }
 
     function setStatus(text, state) {
       status.textContent = text;
@@ -270,8 +272,24 @@ HTML_phone = """
       sendBtn.disabled = state === "off";
     }
 
-    function scrollLogsToBottom() {
-      logs.scrollTop = logs.scrollHeight;
+    function shouldStickToBottom() {
+      const distance = logs.scrollHeight - logs.scrollTop - logs.clientHeight;
+      return distance < 36;
+    }
+
+    function scrollLogsToBottom(force = false) {
+      if (!force && !stickToBottom) {
+        return;
+      }
+
+      window.requestAnimationFrame(() => {
+        logs.scrollTop = logs.scrollHeight;
+      });
+    }
+
+    function resizeComposer() {
+      cmd.style.height = "auto";
+      cmd.style.height = `${Math.min(cmd.scrollHeight, 104)}px`;
     }
 
     function fallbackCopyText(text) {
@@ -320,13 +338,11 @@ HTML_phone = """
         return;
       }
 
-      const delay = 1200;
       setStatus("Reconnexion...", "off");
-
       reconnectTimer = window.setTimeout(() => {
         reconnectTimer = null;
         connectWebSocket(true);
-      }, delay);
+      }, 1200);
     }
 
     function connectWebSocket(force = false) {
@@ -363,7 +379,6 @@ HTML_phone = """
         }
         sessionStorage.removeItem(autoReloadKey);
         setStatus("Interface téléphone connectée", "ok");
-        cmd.focus();
       };
 
       socket.onmessage = (event) => {
@@ -415,7 +430,7 @@ HTML_phone = """
       resendBtn.addEventListener("click", () => {
         if (!ws || ws.readyState !== WebSocket.OPEN) {
           setStatus("WebSocket non connectée", "off");
-          connectWebSocket();
+          connectWebSocket(true);
           return;
         }
         ws.send(`${payload}\n`);
@@ -437,6 +452,7 @@ HTML_phone = """
       const txPrefix = "[PC → ESP] ";
       const rxPrefix = "[ESP → PC] ";
       const tcpConnectedPrefix = "[TCP] ESP connecté :";
+      const follow = stickToBottom || shouldStickToBottom();
       let entry;
 
       if (line.startsWith(txPrefix)) {
@@ -450,7 +466,10 @@ HTML_phone = """
       }
 
       logs.appendChild(entry);
-      scrollLogsToBottom();
+      if (follow) {
+        stickToBottom = true;
+        scrollLogsToBottom(true);
+      }
     }
 
     function sendCmd() {
@@ -461,13 +480,15 @@ HTML_phone = """
 
       if (!ws || ws.readyState !== WebSocket.OPEN) {
         setStatus("WebSocket non connectée", "off");
-        connectWebSocket();
+        connectWebSocket(true);
         return;
       }
 
       ws.send(`${text}\n`);
       cmd.value = "";
-      cmd.focus();
+      resizeComposer();
+      stickToBottom = true;
+      scrollLogsToBottom(true);
     }
 
     function ensureConnection() {
@@ -476,7 +497,7 @@ HTML_phone = """
       }
     }
 
-    wsBootTimer = window.setTimeout(() => {
+    window.setTimeout(() => {
       connectWebSocket(true);
     }, 300);
 
@@ -506,13 +527,37 @@ HTML_phone = """
       connectWebSocket(true);
     });
 
+    logs.addEventListener("scroll", () => {
+      stickToBottom = shouldStickToBottom();
+    });
+
+    cmd.addEventListener("input", () => {
+      resizeComposer();
+      scrollLogsToBottom();
+    });
+
+    cmd.addEventListener("focus", () => {
+      window.setTimeout(() => scrollLogsToBottom(), 120);
+    });
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", updateViewportHeight);
+      window.visualViewport.addEventListener("scroll", updateViewportHeight);
+    }
+
+    window.addEventListener("resize", updateViewportHeight);
+
     sendBtn.addEventListener("click", sendCmd);
     cmd.addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
+      if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
         sendCmd();
       }
     });
+
+    updateViewportHeight();
+    resizeComposer();
+    scrollLogsToBottom(true);
   </script>
 </body>
 </html>
