@@ -12,7 +12,7 @@ from phoneHTML import HTML_phone
 
 UDP_PORT = 33333
 TCP_PORT = 4444
-WEB_PORT = 8080
+WEB_PORT = 5555
 
 app = Flask(__name__)
 sock = Sock(app)
