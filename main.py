@@ -10,6 +10,8 @@ from flask_sock import Sock
 from html_page import HTML
 from phoneHTML import HTML_phone
 
+HEADLESS = False
+
 UDP_PORT = 33333
 TCP_PORT = 4444
 WEB_PORT = 5555
@@ -210,6 +212,7 @@ if __name__ == "__main__":
     log(f"[WEB] Interface réseau : {desktop_url}", to_web=False)
     log(f"[WEB] Interface téléphone : {phone_url}", to_web=False)
 
-    threading.Timer(1.0, lambda: webbrowser.open(local_url)).start()
+    if not HEADLESS:
+        threading.Timer(1.0,lambda: webbrowser.open(local_url)).start()
 
     app.run(host="0.0.0.0", port=WEB_PORT, threaded=True)
